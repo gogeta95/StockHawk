@@ -116,7 +116,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                                                         Toast.LENGTH_LONG);
                                         toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
                                         toast.show();
-                                        return;
+                                        c.close();
                                     } else {
                                         // Add the stock to DB
                                         mServiceIntent.putExtra("tag", "add");
