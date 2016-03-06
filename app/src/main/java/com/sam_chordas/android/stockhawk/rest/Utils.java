@@ -85,7 +85,6 @@ public class Utils {
             String change = jsonObject.getString("Change");
             builder.withValue(QuoteColumns.SYMBOL, jsonObject.getString("symbol"));
             if(truncateBidPrice(jsonObject.getString("Bid"))==null){
-
                 return null;
             }
 
