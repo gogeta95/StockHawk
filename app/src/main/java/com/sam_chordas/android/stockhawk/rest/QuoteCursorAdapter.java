@@ -42,8 +42,7 @@ public class QuoteCursorAdapter extends CursorRecyclerViewAdapter<QuoteCursorAda
         robotoLight = Typeface.createFromAsset(mContext.getAssets(), "fonts/Roboto-Light.ttf");
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_quote, parent, false);
-        ViewHolder vh = new ViewHolder(itemView);
-        return vh;
+        return new ViewHolder(itemView);
     }
 
     @Override
@@ -55,17 +54,19 @@ public class QuoteCursorAdapter extends CursorRecyclerViewAdapter<QuoteCursorAda
             if (sdk < Build.VERSION_CODES.JELLY_BEAN) {
                 viewHolder.change.setBackgroundDrawable(
                         mContext.getResources().getDrawable(R.drawable.percent_change_pill_green));
-            } else {
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 viewHolder.change.setBackground(
                         mContext.getResources().getDrawable(R.drawable.percent_change_pill_green));
+
             }
         } else {
             if (sdk < Build.VERSION_CODES.JELLY_BEAN) {
                 viewHolder.change.setBackgroundDrawable(
                         mContext.getResources().getDrawable(R.drawable.percent_change_pill_red));
-            } else {
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 viewHolder.change.setBackground(
                         mContext.getResources().getDrawable(R.drawable.percent_change_pill_red));
+
             }
         }
         if (Utils.showPercent) {

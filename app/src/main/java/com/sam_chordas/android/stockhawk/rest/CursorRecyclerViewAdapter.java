@@ -17,10 +17,12 @@ public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHold
     private boolean dataIsValid;
     private int rowIdColumn;
     private DataSetObserver mDataSetObserver;
+    private Context context;
 
     public CursorRecyclerViewAdapter(Context context, Cursor cursor) {
         mCursor = cursor;
         dataIsValid = cursor != null;
+        this.context = context;
         rowIdColumn = dataIsValid ? mCursor.getColumnIndex("_id") : -1;
         mDataSetObserver = new NotifyingDataSetObserver();
         if (dataIsValid) {
@@ -97,6 +99,7 @@ public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHold
             super.onChanged();
             dataIsValid = true;
             notifyDataSetChanged();
+//            AppWidgetManager.getInstance(context).notifyAppWidgetViewDataChanged();
         }
 
         @Override
