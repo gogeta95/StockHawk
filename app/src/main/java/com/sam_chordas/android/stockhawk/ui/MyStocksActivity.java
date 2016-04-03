@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.example.sam_chordas.stockhawk.HistoryActivity;
 import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.PeriodicTask;
 import com.google.android.gms.gcm.Task;
@@ -86,8 +87,10 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                 new RecyclerViewItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View v, int position) {
-                        //TODO:
-                        // do something on item click
+                        Intent  intent= new Intent(MyStocksActivity.this, HistoryActivity.class);
+                        mCursor.moveToPosition(position);
+                        intent.putExtra("tag",mCursor.getString(mCursor.getColumnIndex("symbol")));
+                        startActivity(intent);
                     }
                 }));
         recyclerView.setAdapter(mCursorAdapter);
