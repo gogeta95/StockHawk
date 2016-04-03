@@ -89,7 +89,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                     public void onItemClick(View v, int position) {
                         Intent  intent= new Intent(MyStocksActivity.this, HistoryActivity.class);
                         mCursor.moveToPosition(position);
-                        intent.putExtra("tag",mCursor.getString(mCursor.getColumnIndex("symbol")));
+                        intent.putExtra(HistoryActivity.KEY_TICKER,mCursor.getString(mCursor.getColumnIndex("symbol")));
                         startActivity(intent);
                     }
                 }));
