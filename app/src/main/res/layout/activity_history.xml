@@ -8,12 +8,14 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.sam_chordas.stockhawk.HistoryActivity">
-    <com.db.chart.view.LineChartView
-        app:chart_axisColor="@color/material_blue_500"
-        app:chart_labelColor="@color/material_blue_700"
-        android:layout_centerInParent="true"
+    tools:context=".HistoryActivity">
+    <org.eazegraph.lib.charts.ValueLineChart
         android:id="@+id/linechart"
         android:layout_width="match_parent"
-        android:layout_height="200dp"/>
+        android:layout_height="match_parent"
+        app:egUseCubic="true"
+        app:egUseOverlapFill="true"
+        app:egIndicatorLineColor="#FE6DA8"
+        app:egIndicatorTextColor="@android:color/white"
+        app:egLegendHeight="40dp"/>
 </RelativeLayout>

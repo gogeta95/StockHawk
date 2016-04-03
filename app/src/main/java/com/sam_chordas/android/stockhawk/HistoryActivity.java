@@ -1,19 +1,17 @@
-package com.example.sam_chordas.stockhawk;
+package com.sam_chordas.android.stockhawk;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import com.db.chart.model.LineSet;
-import com.db.chart.view.LineChartView;
-import com.db.chart.view.animation.Animation;
-import com.db.chart.view.animation.easing.LinearEase;
-import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.data.StockData;
 import com.sam_chordas.android.stockhawk.data.StockDayData;
+import com.sam_chordas.android.stockhawk.data.StockMinMax;
 import com.sam_chordas.android.stockhawk.rest.StockService;
+
+import org.eazegraph.lib.charts.ValueLineChart;
+import org.eazegraph.lib.models.ValueLinePoint;
+import org.eazegraph.lib.models.ValueLineSeries;
 
 import java.io.IOException;
 
@@ -34,9 +32,11 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
-        if (getSupportActionBar() != null)
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getIntent().getStringExtra(KEY_TICKER));
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        final LineChartView lineChartView = (LineChartView) findViewById(R.id.linechart);
+        }
+        final ValueLineChart lineChart = (ValueLineChart) findViewById(R.id.linechart);
         final OkHttpClient.Builder builder = new OkHttpClient.Builder();
         Interceptor myInterceptor = new Interceptor() {
             @Override
@@ -60,36 +60,22 @@ public class HistoryActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<StockDayData> call, Response<StockDayData> response) {
                 if (response != null) {
-                    try{
-                        StockDayData stockDayData = response.body();
-                        if (getSupportActionBar() != null)
-                            getSupportActionBar().setTitle(stockDayData.getMeta().getCompanyName());
-                        LineSet lineSet = new LineSet();
-                        lineSet.setColor(getResources().getColor(R.color.material_green_700));
-                        lineSet.setThickness(2);
-                        lineSet.setFill(getResources().getColor(R.color.material_green_500));
-                        int i = 0;
-                        float min = Float.MAX_VALUE;
-                        float max = 0;
-                        for (StockData stockData : stockDayData.getSeries()) {
-                            if (i % 10 == 0) {
-                                Float current= Float.valueOf(stockData.getOpen());
-                                max=current>max?current:max;
-                                min=current<min?current:min;
-                                lineSet.addPoint("",current);
-                            }
-                            i++;
+                    StockDayData stockDayData = response.body();
+                    if (getSupportActionBar() != null)
+                        getSupportActionBar().setTitle(stockDayData.getMeta().getCompanyName());
+                    ValueLineSeries lineSeries = new ValueLineSeries();
+                    lineSeries.setColor(getResources().getColor(R.color.material_green_500));
+                    int i = 0;
+                    for (StockData stockData : stockDayData.getSeries()) {
+                        if (i % 10 == 0) {
+//                            Float current = Float.valueOf(stockData.getOpen());
+//                                lineSet.addPoint("", current);
+                            lineSeries.addPoint(new ValueLinePoint("",Float.valueOf(stockData.getClose())));
                         }
-                        lineChartView.setAxisBorderValues((int) min,(int) max);
-                        lineChartView.addData(lineSet);
-                        lineChartView.show();
+                        i++;
                     }
-                    catch (ArrayIndexOutOfBoundsException e){
-                        e.printStackTrace();
-                        Toast.makeText(HistoryActivity.this,R.string.error_msg, Toast.LENGTH_SHORT).show();
-                    }
-
-
+                    lineChart.addSeries(lineSeries);
+                    lineChart.startAnimation();
                 }
             }
 

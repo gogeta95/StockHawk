@@ -61,7 +61,7 @@
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <activity
-            android:name="com.example.sam_chordas.stockhawk.HistoryActivity"
+            android:name=".HistoryActivity"
             android:label="@string/title_activity_history"
             android:parentActivityName=".ui.MyStocksActivity">
             <meta-data

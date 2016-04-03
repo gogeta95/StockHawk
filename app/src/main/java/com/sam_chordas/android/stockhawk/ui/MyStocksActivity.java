@@ -22,7 +22,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.example.sam_chordas.stockhawk.HistoryActivity;
+import com.sam_chordas.android.stockhawk.HistoryActivity;
 import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.PeriodicTask;
 import com.google.android.gms.gcm.Task;
